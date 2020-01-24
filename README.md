@@ -1,0 +1,2 @@
+# kubernetes-skeleton
+Install kubernetes
