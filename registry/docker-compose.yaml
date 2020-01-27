@@ -12,3 +12,4 @@ registry:
   volumes:
     - ~/registry/images:/var/lib/registry
     - ~/registry/key:/certs
+    - ~/registry/auth:/auth
