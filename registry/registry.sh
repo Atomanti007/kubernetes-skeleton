@@ -1,9 +1,11 @@
 #!/bin/sh
 
 echo "--------------------------------- Uptade"
+
 sudo apt update -y
 
 echo "--------------------------------- Install docker.io"
+
 sudo apt install docker.io -y \
 && sudo usermod -aG docker $USER
 
@@ -13,8 +15,8 @@ newgrp docker << END
 echo "--------------------------------- Install docker compose"
 sudo apt install docker-compose -y
 
-echo "--------------------------------- Remove golang-docker-credential-helpers"
-sudo apt remove golang-docker-credential-helpers -y
+echo "--------------------------------- Fix docker login"
+sudo apt install gnupg2 pass
 
 echo "--------------------------------- Add zsolt.docker.registry to localhost"
 grep -qxF '127.0.0.1 zsolt.docker.registry' /etc/hosts || sudo bash -c 'echo "127.0.0.1 zsolt.docker.registry" >> /etc/hosts'
