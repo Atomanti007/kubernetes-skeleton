@@ -1,16 +1,16 @@
 #!/bin/sh
 
-echo "Uptade"
+echo "--------------------------------- Uptade"
 
 sudo apt update -y
 
-echo "Install docker.io"
+echo "--------------------------------- Install docker.io"
 
 sudo apt install docker.io -y \
 && sudo usermod -aG docker $USER
 
+echo "--------------------------------- Create new group docker"
 newgrp docker
-echo "Create new group docker"
 
 sudo apt install docker-compose -y \
 && sudo apt remove golang-docker-credential-helpers \
