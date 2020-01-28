@@ -1,10 +1,18 @@
 #!/bin/sh
 
-sudo apt update -y \
-&& sudo apt install docker.io -y \
-&& sudo usermod -aG docker $USER \
-&& newgrp docker \
-&& sudo apt install docker-compose -y \
+echo "Uptade"
+
+sudo apt update -y
+
+echo "Install docker.io"
+
+sudo apt install docker.io -y \
+&& sudo usermod -aG docker $USER
+
+newgrp docker
+echo "Create new group docker"
+
+sudo apt install docker-compose -y \
 && sudo apt remove golang-docker-credential-helpers \
 && grep -qxF '127.0.0.1 zsolt.docker.registry' /etc/hosts || sudo bash -c 'echo "127.0.0.1 zsolt.docker.registry" >> /etc/hosts' \
 && mkdir ~/registry -p \
