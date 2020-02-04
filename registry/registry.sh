@@ -20,7 +20,7 @@ echo "--------------------------------- Install docker compose"
 sudo apt install docker-compose -y
 
 echo "--------------------------------- Fix docker login"
-sudo apt install gnupg2 pass
+sudo apt install gnupg2 pass -y
 
 echo "--------------------------------- Add zsolt.docker.registry to localhost"
 grep -qxF '127.0.0.1 $docker_domain' /etc/hosts || sudo bash -c 'echo "127.0.0.1 $docker_domain" >> /etc/hosts'
