@@ -32,7 +32,7 @@ mkdir ~/registry -p \
 && mkdir ~/registry/auth -p \
 && touch ~/registry/auth/htpasswd \
 && wget -P ~/registry https://raw.githubusercontent.com/Atomanti007/kubernetes-skeleton/master/registry/docker-compose.yaml \
-&& openssl req -subj '/CN=$docker_domain/O=Atomanti007/C=HU' -new -newkey rsa:2048 -days 365 -nodes -x509 -keyout ~/registry/domain.key -out ~/registry/domain.crt
+&& openssl req -subj '/CN=$docker_domain/O=Atomanti007/C=HU' -new -newkey rsa:2048 -days 365 -nodes -x509 -keyout ~/registry/key/domain.key -out ~/registry/key/domain.crt
 
 echo "--------------------------------- Compose docker registry"
 docker-compose -f ~/registry/docker-compose.yaml up -d \
