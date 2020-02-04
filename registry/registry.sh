@@ -1,5 +1,9 @@
 #!/bin/sh
 
+echo "--------------------------------- Get domain"
+echo Domain name:
+read docker_domain
+
 echo "--------------------------------- Uptade"
 
 sudo apt update -y
@@ -19,7 +23,7 @@ echo "--------------------------------- Fix docker login"
 sudo apt install gnupg2 pass
 
 echo "--------------------------------- Add zsolt.docker.registry to localhost"
-grep -qxF '127.0.0.1 zsolt.docker.registry' /etc/hosts || sudo bash -c 'echo "127.0.0.1 zsolt.docker.registry" >> /etc/hosts'
+grep -qxF '127.0.0.1 $docker_domain' /etc/hosts || sudo bash -c 'echo "127.0.0.1 $docker_domain" >> /etc/hosts'
 
 echo "--------------------------------- Create file system for registry"
 mkdir ~/registry -p \
@@ -28,8 +32,7 @@ mkdir ~/registry -p \
 && mkdir ~/registry/auth -p \
 && touch ~/registry/auth/htpasswd \
 && wget -P ~/registry https://raw.githubusercontent.com/Atomanti007/kubernetes-skeleton/master/registry/docker-compose.yaml \
-&& wget -P ~/registry/key https://raw.githubusercontent.com/Atomanti007/kubernetes-skeleton/master/registry/domain.crt \
-&& wget -P ~/registry/key https://raw.githubusercontent.com/Atomanti007/kubernetes-skeleton/master/registry/domain.key
+&& openssl req -subj '/CN=$docker_domain/O=Atomanti007/C=HU' -new -newkey rsa:2048 -days 365 -nodes -x509 -keyout ~/registry/domain.key -out ~/registry/domain.crt
 
 echo "--------------------------------- Compose docker registry"
 docker-compose -f ~/registry/docker-compose.yaml up -d \
