@@ -16,3 +16,6 @@ sudo apt update -y \
 && sudo chown $(id -u):$(id -g) $HOME/.kube/config \
 && kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml \
 && kubectl apply -f https://raw.githubusercontent.com/Atomanti007/kubernetes-skeleton/master/dashboard.yaml
+
+
+kubectl taint nodes --all node-role.kubernetes.io/master-
