@@ -14,7 +14,5 @@ sudo apt update -y \
 && mkdir -p $HOME/.kube \
 && sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config \
 && sudo chown $(id -u):$(id -g) $HOME/.kube/config \
-&& wget --no-cache -O ~/kubernetes/kube-flannel.yaml https://raw.githubusercontent.com/Atomanti007/kubernetes-skeleton/master/kube-flannel.yaml \
-&& sudo kubectl apply -f ~/kubernetes/kube-flannel.yaml \
-&& wget --no-cache -O ~/kubernetes/dashboard.yaml https://raw.githubusercontent.com/Atomanti007/kubernetes-skeleton/master/dashboard.yaml \
-&& sudo kubectl apply -f ~/kubernetes/dashboard.yaml
+&& kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml \
+&& kubectl apply -f https://raw.githubusercontent.com/Atomanti007/kubernetes-skeleton/master/dashboard.yaml
