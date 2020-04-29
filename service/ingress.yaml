@@ -1,0 +1,17 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  labels:
+    app: uploader-ingress
+    env: test
+    layer: api-gateway
+  name: uploader
+spec:
+  rules:
+  - host: uploader.kubernetes
+    http:
+      paths:
+      - backend:
+          serviceName: uploader
+          servicePort: 8080
+        path: /
