@@ -10,7 +10,7 @@ sudo apt update -y \
 && sudo apt-get install -y kubelet kubeadm kubectl \
 && sudo swapoff -a \
 && sudo hostnamectl set-hostname master-node \
-&& sudo kubeadm init --pod-network-cidr=10.244.0.0/16 \
+&& sudo kubeadm init --pod-network-cidr=10.244.0.0/16 --apiserver-advertise-address=$(hostname -I | awk '{print $1}') \
 && mkdir -p $HOME/.kube \
 && sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config \
 && sudo chown $(id -u):$(id -g) $HOME/.kube/config \
