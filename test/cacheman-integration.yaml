@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cacheman-integration
+  labels:
+    app: cacheman-integration
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cacheman-integration
+  template:
+    metadata:
+      labels:
+        app: cacheman-integration
+    spec:
+      containers:
+      - name: account
+        image: registry.storesync.io/integration-cacheman:1.0-SNAPSHOT
+        ports:
+        - containerPort: 8080
+        imagePullPolicy: Always
+        volumeMounts:
+          - mountPath: /mnt/log
+            name: log-pvc
+        env:
+        - name: JVM_HEAP_SIZE
+          value: 200m
+        resources:
+          requests:
+            memory: "300m"
+            cpu: "100m"
+      imagePullSecrets:
+      - name: regcred
+      volumes:
+        - name: log-pvc
+          persistentVolumeClaim:
+            claimName: log-claim
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 25%
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: cacheman-integration
+spec:
+  selector:
+    app: cacheman-integration
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080

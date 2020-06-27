@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: account-deployment
+  labels:
+    app: account-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: account-deployment
+  template:
+    metadata:
+      labels:
+        app: account-deployment
+    spec:
+      containers:
+      - name: account
+        image: registry.storesync.io/account:1.0-SNAPSHOT
+        ports:
+        - containerPort: 8080
+        imagePullPolicy: Always
+        volumeMounts:
+          - mountPath: /mnt/log
+            name: log-pvc
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+      imagePullSecrets:
+      - name: regcred
+      volumes:
+        - name: log-pvc
+          persistentVolumeClaim:
+            claimName: log-claim
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: account-service
+spec:
+  selector:
+    app: account-deployment
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080

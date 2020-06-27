@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: downloader-deployment
+  labels:
+    app: downloader-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: downloader-deployment
+  template:
+    metadata:
+      labels:
+        app: downloader-deployment
+    spec:
+      containers:
+      - name: account
+        image: registry.storesync.io/downloader:1.0-SNAPSHOT
+        ports:
+        - containerPort: 8080
+        imagePullPolicy: Always
+        volumeMounts:
+          - mountPath: /mnt/log
+            name: log-pvc
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+      imagePullSecrets:
+      - name: regcred
+      volumes:
+        - name: log-pvc
+          persistentVolumeClaim:
+            claimName: log-claim
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: downloader-service
+spec:
+  selector:
+    app: downloader-deployment
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080

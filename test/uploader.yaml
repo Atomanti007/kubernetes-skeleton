@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: uploader-deployment
+  labels:
+    app: uploader-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: uploader-deployment
+  template:
+    metadata:
+      labels:
+        app: uploader-deployment
+    spec:
+      containers:
+      - name: account
+        image: registry.storesync.io/uploader:1.0-SNAPSHOT
+        ports:
+        - containerPort: 8080
+        imagePullPolicy: Always
+        volumeMounts:
+          - mountPath: /mnt/log
+            name: log-pvc
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+      imagePullSecrets:
+      - name: regcred
+      volumes:
+        - name: log-pvc
+          persistentVolumeClaim:
+            claimName: log-claim
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: uploader-service
+spec:
+  selector:
+    app: uploader-deployment
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
