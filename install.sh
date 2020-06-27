@@ -4,7 +4,7 @@
 bash <(curl -s https://raw.githubusercontent.com/Atomanti007/kubernetes-skeleton/master/run.sh)
 
 #./heml/helm.sh
-bash <(curl -s https://raw.githubusercontent.com/Atomanti007/kubernetes-skeleton/master/heml/helm.sh)
+bash <(curl -s https://raw.githubusercontent.com/Atomanti007/kubernetes-skeleton/master/helm/helm.sh)
 
 #./openebs/install.sh
 bash <(curl -s https://raw.githubusercontent.com/Atomanti007/kubernetes-skeleton/master/openebs/install.sh)
